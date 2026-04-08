@@ -596,6 +596,12 @@ function applyRoleUI() {
     // Show a \u2022 Delegated badge on role if they have delegated access but are not captain
     roleEl.textContent = member.role + (canAssign && !isCapt ? ' · Delegate' : '');
   } else {
+    if (currentUser.picture) {
+      avatarEl.style.backgroundImage = `url('${currentUser.picture}')`;
+      avatarEl.style.backgroundSize = 'cover';
+      avatarEl.style.backgroundPosition = 'center';
+      avatarEl.textContent = '';
+    }
     nameEl.textContent = currentUser.name.split(' ')[0];
     roleEl.textContent = isCapt ? 'Captain' : 'Member';
   }

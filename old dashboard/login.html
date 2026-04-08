@@ -617,86 +617,9 @@
       </div>
 
       <h1 class="login-heading">Sign In</h1>
-      <p class="login-desc">Access your team workspace</p>
+      <p class="login-desc">Access your team workspace with Google</p>
 
       <form class="login-form" id="login-form" novalidate>
-        <!-- Role Selection -->
-        <div class="form-group">
-          <label class="form-label">Sign in as</label>
-          <div class="role-selector">
-            <label class="role-option">
-              <input type="radio" name="role" value="captain" id="role-captain" checked />
-              <div class="role-option-label">
-                <div class="role-icon captain">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                  </svg>
-                </div>
-                Captain
-              </div>
-            </label>
-            <label class="role-option">
-              <input type="radio" name="role" value="member" id="role-member" />
-              <div class="role-option-label">
-                <div class="role-icon member">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                </div>
-                Member
-              </div>
-            </label>
-          </div>
-        </div>
-
-        <!-- Name / Username -->
-        <div class="form-group">
-          <label class="form-label" for="login-username">Your Name</label>
-          <div class="input-wrapper">
-            <span class="input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-            </span>
-            <input
-              type="text"
-              class="form-input"
-              id="login-username"
-              placeholder="Enter your name…"
-              autocomplete="name"
-              required />
-          </div>
-        </div>
-
-        <!-- Password -->
-        <div class="form-group">
-          <label class="form-label" for="login-password">Password</label>
-          <div class="input-wrapper">
-            <span class="input-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-              </svg>
-            </span>
-            <input
-              type="password"
-              class="form-input"
-              id="login-password"
-              placeholder="Enter your password…"
-              autocomplete="current-password"
-              required />
-            <button type="button" class="toggle-pwd" id="toggle-pwd" aria-label="Toggle password visibility">
-              <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                <circle cx="12" cy="12" r="3" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <!-- Error Message -->
         <div class="error-msg" id="error-msg">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
             style="display:inline;vertical-align:middle;margin-right:6px;">
@@ -704,32 +627,16 @@
             <line x1="12" y1="8" x2="12" y2="12" />
             <line x1="12" y1="16" x2="12.01" y2="16" />
           </svg>
-          <span id="error-text">Invalid credentials. Please try again.</span>
+          <span id="error-text">Google sign-in failed. Please try again.</span>
         </div>
 
-        <!-- Remember / Forgot -->
-        <div class="form-meta">
-          <label class="checkbox-label" for="remember-me">
-            <input type="checkbox" id="remember-me" />
-            <span class="custom-checkbox"></span>
-            Remember me
-          </label>
-          <a href="#" class="forgot-link" id="forgot-link">Forgot password?</a>
+        <div class="form-group">
+          <label class="form-label">Continue with Google</label>
+          <div id="google-signin-btn" style="display:flex;justify-content:center;"></div>
+          <p style="font-size:0.76rem;color:var(--text-muted);text-align:center;line-height:1.5;">
+            Use your team Google account. Captain role is assigned by email.
+          </p>
         </div>
-
-        <!-- Submit -->
-        <button type="submit" class="btn-login" id="login-btn">
-          <div class="btn-spinner" id="btn-spinner"></div>
-          <span class="btn-text" id="btn-text">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-              style="margin-right:6px;vertical-align:middle;">
-              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
-              <polyline points="10 17 15 12 10 7" />
-              <line x1="15" y1="12" x2="3" y2="12" />
-            </svg>
-            Sign In
-          </span>
-        </button>
       </form>
     </div>
 
@@ -739,6 +646,7 @@
     </div>
   </div>
 
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     /* ── Year ── */
     document.getElementById('login-year').textContent = new Date().getFullYear();
@@ -762,108 +670,104 @@
       }
     })();
 
-    /* ── Password Toggle ── */
-    const pwdInput = document.getElementById('login-password');
-    const toggleBtn = document.getElementById('toggle-pwd');
-    const eyeIcon  = document.getElementById('eye-icon');
+    /* ── Google Login Config ── */
+    // Replace with your Google OAuth 2.0 Client ID from Google Cloud Console.
+    const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
 
-    const eyeOpen  = `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
-    const eyeSlash = `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`;
+    // Team captain account. Keep this in sync with your real captain Google email.
+    const CAPTAIN_EMAIL = 'tamilamuthan@example.com';
 
-    toggleBtn.addEventListener('click', () => {
-      const isHidden = pwdInput.type === 'password';
-      pwdInput.type = isHidden ? 'text' : 'password';
-      eyeIcon.innerHTML = isHidden ? eyeSlash : eyeOpen;
-    });
-
-    /* ── Credentials ── */
-    // Captain credentials
-    const CAPTAIN_CREDS = { name: 'Tamil Amuthan', password: 'captain2024' };
-
-    // Member credentials (name-based, all share same password)
-    const MEMBER_NAMES = [
-      'Kamalesh', 'Hajira Banu', 'Abi Varshini', 'Ashif Ahmed',
-      'Sudharshan', 'Harivarthan', 'Pranesh', 'Sanjeev',
-      'Archana', 'Abishek', 'Rashmika P', 'Tejasri K', 'Srinithi S'
-    ];
-    const MEMBER_PASSWORD = 'team2024';
-
-    /* ── Form submit ── */
-    const form      = document.getElementById('login-form');
-    const loginBtn  = document.getElementById('login-btn');
     const errorMsg  = document.getElementById('error-msg');
     const errorText = document.getElementById('error-text');
-    const btnText   = document.getElementById('btn-text');
-    const btnSpinner = document.getElementById('btn-spinner');
 
     function showError(msg) {
       errorText.textContent = msg;
       errorMsg.classList.remove('show');
-      void errorMsg.offsetWidth; // reflow for re-animation
+      void errorMsg.offsetWidth;
       errorMsg.classList.add('show');
     }
 
-    function setLoading(on) {
-      loginBtn.classList.toggle('loading', on);
-      loginBtn.disabled = on;
-      btnText.style.opacity = on ? '0' : '1';
-      btnSpinner.style.display = on ? 'block' : 'none';
+    function decodeJwtPayload(jwt) {
+      const payload = jwt.split('.')[1];
+      const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+      const json = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`)
+          .join('')
+      );
+      return JSON.parse(json);
     }
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const username = document.getElementById('login-username').value.trim();
-      const password = document.getElementById('login-password').value;
-      const role = document.querySelector('input[name="role"]:checked').value;
+    function determineRoleFromEmail(email) {
+      if (email.toLowerCase() === CAPTAIN_EMAIL.toLowerCase()) return 'captain';
+      return 'member';
+    }
 
-      if (!username) { showError('Please enter your name.'); return; }
-      if (!password) { showError('Please enter your password.'); return; }
-
-      setLoading(true);
-      errorMsg.classList.remove('show');
-
-      // Simulate async auth check
-      setTimeout(() => {
-        let valid = false;
-        let matchedName = null;
-
-        if (role === 'captain') {
-          valid = (
-            username.toLowerCase() === CAPTAIN_CREDS.name.toLowerCase() &&
-            password === CAPTAIN_CREDS.password
-          );
-        } else {
-          matchedName = MEMBER_NAMES.find(n => n.toLowerCase() === username.toLowerCase());
-          valid = !!matchedName && password === MEMBER_PASSWORD;
+    function handleGoogleCredentialResponse(response) {
+      try {
+        if (!response || !response.credential) {
+          showError('Google sign-in did not return a credential.');
+          return;
         }
 
-        if (valid) {
-          const finalName = role === 'captain' ? CAPTAIN_CREDS.name : matchedName;
-          sessionStorage.setItem('a100263_user', JSON.stringify({ name: finalName, role }));
-
-          // Show success
-          document.getElementById('success-overlay').classList.add('show');
-
-          // Redirect to dashboard after brief pause
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 1400);
-        } else {
-          setLoading(false);
-          showError(
-            role === 'captain'
-              ? 'Invalid captain credentials. Check your name and password.'
-              : 'Name not found or wrong password. Ask your captain for access.'
-          );
+        const profile = decodeJwtPayload(response.credential);
+        if (!profile || !profile.email || !profile.name) {
+          showError('Could not read your Google profile details.');
+          return;
         }
-      }, 1000);
-    });
 
-    /* ── Forgot password ── */
-    document.getElementById('forgot-link').addEventListener('click', (e) => {
-      e.preventDefault();
-      showError('Please contact your team captain (Tamil Amuthan) to reset your password.');
-    });
+        const role = determineRoleFromEmail(profile.email);
+        sessionStorage.setItem('a100263_user', JSON.stringify({
+          name: profile.name,
+          role,
+          email: profile.email,
+          picture: profile.picture || ''
+        }));
+
+        document.getElementById('success-overlay').classList.add('show');
+        setTimeout(() => {
+          window.location.href = 'index.html';
+        }, 1000);
+      } catch {
+        showError('Google sign-in failed while processing your account.');
+      }
+    }
+
+    function initGoogleSignIn() {
+      if (!window.google || !window.google.accounts || !window.google.accounts.id) {
+        showError('Google script did not load. Check internet and try again.');
+        return;
+      }
+
+      if (GOOGLE_CLIENT_ID.startsWith('YOUR_GOOGLE_CLIENT_ID')) {
+        showError('Set GOOGLE_CLIENT_ID in login.html to enable Google login.');
+        return;
+      }
+
+      window.google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredentialResponse,
+        auto_select: false,
+        cancel_on_tap_outside: true
+      });
+
+      window.google.accounts.id.renderButton(
+        document.getElementById('google-signin-btn'),
+        {
+          type: 'standard',
+          theme: 'outline',
+          size: 'large',
+          text: 'signin_with',
+          shape: 'pill',
+          width: 340
+        }
+      );
+    }
+
+    // Avoid stale sessions on login page, unless explicitly redirected from app.
+    sessionStorage.removeItem('a100263_user');
+    window.addEventListener('load', initGoogleSignIn);
   </script>
 </body>
 
