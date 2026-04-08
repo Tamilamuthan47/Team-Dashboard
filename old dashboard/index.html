@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A#100263 — Collaborative Workspace</title>
+  <meta name="description"
+    content="A premium collaborative workspace for teams to assign tasks, submit work, and track progress in real-time." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <!-- Ambient Background Orbs -->
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+  <div class="bg-orb bg-orb-3"></div>
+
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="url(#grad1)" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#a855f7" />
+              <stop offset="100%" style="stop-color:#3b82f6" />
+            </linearGradient>
+          </defs>
+          <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2" />
+          <line x1="12" y1="22" x2="12" y2="15.5" />
+          <polyline points="22 8.5 12 15.5 2 8.5" />
+        </svg>
+      </div>
+      <span class="brand-name">A#100263</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="#" class="nav-item active" data-section="dashboard" id="nav-dashboard">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
+        </svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="#" class="nav-item" data-section="tasks" id="nav-tasks">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M9 11l3 3L22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </svg>
+        <span>Tasks</span>
+      </a>
+      <a href="#" class="nav-item" data-section="feed" id="nav-feed">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M4 11a9 9 0 0 1 9-9" />
+          <path d="M4 4a16 16 0 0 1 16 16" />
+          <circle cx="5" cy="19" r="1" />
+        </svg>
+        <span>Feed</span>
+      </a>
+      <a href="#" class="nav-item" data-section="team" id="nav-team">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        <span>Team</span>
+      </a>
+      <a href="#" class="nav-item" data-section="captain" id="nav-captain">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <polygon
+            points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+        </svg>
+        <span>Captain</span>
+      </a>
+      <a href="#" class="nav-item" data-section="activity" id="nav-activity">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+          <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+        </svg>
+        <span>Activity</span>
+        <span class="nav-badge" id="activity-badge">0</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile-mini">
+        <div class="avatar avatar-sm" id="sidebar-avatar" style="background: linear-gradient(135deg, #a855f7, #3b82f6);">C</div>
+        <div class="user-info-mini">
+          <span class="user-name-mini" id="sidebar-user-name">Captain</span>
+          <span class="user-role-mini" id="sidebar-user-role">Team Lead</span>
+        </div>
+      </div>
+      <button class="logout-btn" id="logout-btn" title="Sign out">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content" id="main-content">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <button class="menu-toggle" id="menu-toggle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </button>
+      <div class="topbar-left">
+        <h1 class="page-title" id="page-title">Dashboard</h1>
+        <span class="page-subtitle" id="page-subtitle">Overview of your team's progress</span>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input type="text" placeholder="Search tasks..." id="search-input" />
+        </div>
+        <button class="icon-btn notification-btn" id="notification-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          <span class="notification-dot" id="notification-dot"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ═══════════════════ DASHBOARD SECTION ═══════════════════ -->
+    <section class="content-section active" id="section-dashboard">
+      <!-- Stats Row -->
+      <div class="stats-grid">
+        <div class="stat-card" id="stat-members">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #a855f7, #7c3aed);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-value">14</span>
+            <span class="stat-label">Team Members</span>
+          </div>
+          <div class="stat-trend positive">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+            </svg>
+            Active
+          </div>
+        </div>
+        <div class="stat-card" id="stat-assigned">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-value" id="dash-assigned-count">0</span>
+            <span class="stat-label">Tasks Assigned</span>
+          </div>
+          <div class="stat-trend neutral">In Progress</div>
+        </div>
+        <div class="stat-card" id="stat-completed">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #10b981, #059669);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-value" id="dash-completed-count">0</span>
+            <span class="stat-label">Completed</span>
+          </div>
+          <div class="stat-trend positive">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+            </svg>
+            <span id="dash-completion-pct">0%</span>
+          </div>
+        </div>
+        <div class="stat-card" id="stat-pending">
+          <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #d97706);">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <div class="stat-body">
+            <span class="stat-value" id="dash-pending-count">0</span>
+            <span class="stat-label">Pending</span>
+          </div>
+          <div class="stat-trend warning">Awaiting</div>
+        </div>
+      </div>
+
+      <!-- Progress Section -->
+      <div class="dashboard-grid">
+        <div class="glass-card progress-card">
+          <h3 class="card-title">Team Progress</h3>
+          <div class="progress-ring-container">
+            <svg class="progress-ring" width="160" height="160" viewBox="0 0 160 160">
+              <circle class="progress-ring-bg" cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.06)"
+                stroke-width="12" />
+              <circle class="progress-ring-fill" id="progress-ring-fill" cx="80" cy="80" r="68" fill="none"
+                stroke="url(#progressGrad)" stroke-width="12" stroke-linecap="round" stroke-dasharray="427"
+                stroke-dashoffset="427" transform="rotate(-90 80 80)" />
+              <defs>
+                <linearGradient id="progressGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#a855f7" />
+                  <stop offset="100%" style="stop-color:#3b82f6" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="progress-ring-text">
+              <span class="progress-pct" id="progress-pct-text">0%</span>
+              <span class="progress-label">Complete</span>
+            </div>
+          </div>
+          <div class="progress-bars">
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span>Tasks Assigned</span>
+                <span id="pb-assigned">0</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill assigned" id="pb-assigned-fill"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span>Completed</span>
+                <span id="pb-completed">0</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill completed" id="pb-completed-fill"></div>
+              </div>
+            </div>
+            <div class="progress-item">
+              <div class="progress-item-header">
+                <span>Pending</span>
+                <span id="pb-pending">0</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-bar-fill pending" id="pb-pending-fill"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card recent-activity-card">
+          <h3 class="card-title">Recent Activity</h3>
+          <div class="activity-list" id="dashboard-activity-list">
+            <div class="empty-state small">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)"
+                stroke-width="1.5">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+              </svg>
+              <p>No activity yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Team Overview -->
+      <div class="glass-card">
+        <h3 class="card-title">Quick Team Overview</h3>
+        <div class="team-avatars-row" id="team-avatars-row"></div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ TASKS SECTION ═══════════════════ -->
+    <section class="content-section" id="section-tasks">
+
+      <!-- ── CAPTAIN VIEW: Create + All Tasks ── -->
+      <div class="tasks-layout" id="captain-tasks-layout">
+        <!-- Create Task Panel -->
+        <div class="glass-card create-task-card">
+          <h3 class="card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="16" />
+              <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Assign New Task
+          </h3>
+          <form id="create-task-form" class="task-form">
+            <div class="form-group">
+              <label for="task-title">Task Title</label>
+              <input type="text" id="task-title" placeholder="Enter task title..." required />
+            </div>
+            <div class="form-group">
+              <label for="task-desc">Description</label>
+              <textarea id="task-desc" placeholder="Describe the task..." rows="3" required></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="task-member">Assign To</label>
+                <select id="task-member" required>
+                  <option value="">Select member...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="task-deadline">Deadline</label>
+                <input type="date" id="task-deadline" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="task-priority">Priority</label>
+              <div class="priority-selector">
+                <label class="priority-opt"><input type="radio" name="priority" value="low" checked /><span
+                    class="priority-tag low">Low</span></label>
+                <label class="priority-opt"><input type="radio" name="priority" value="medium" /><span
+                    class="priority-tag medium">Medium</span></label>
+                <label class="priority-opt"><input type="radio" name="priority" value="high" /><span
+                    class="priority-tag high">High</span></label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-glow" id="create-task-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
+              </svg>
+              Assign Task
+            </button>
+          </form>
+        </div>
+
+        <!-- Task List (Captain: all tasks) -->
+        <div class="glass-card task-list-card">
+          <div class="task-list-header">
+            <h3 class="card-title">All Tasks</h3>
+            <div class="task-filters">
+              <button class="filter-btn active" data-filter="all">All</button>
+              <button class="filter-btn" data-filter="pending">Pending</button>
+              <button class="filter-btn" data-filter="completed">Completed</button>
+            </div>
+          </div>
+          <div class="task-list" id="task-list">
+            <div class="empty-state">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5">
+                <path d="M9 11l3 3L22 4" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
+              <h4>No tasks yet</h4>
+              <p>Create your first task using the form</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── MEMBER VIEW: Read-only tasks ── -->
+      <div class="tasks-layout member-tasks-layout" id="member-tasks-layout" style="display:none; grid-template-columns:1fr;">
+        <!-- Access Denied Panel -->
+        <div class="glass-card access-denied-card">
+          <div class="access-denied-inner">
+            <div class="access-denied-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <h3 class="access-denied-title">Captain Only</h3>
+            <p class="access-denied-desc">Task assignment is restricted to the team captain.<br/>Only <strong>Tamil Amuthan</strong> can create and assign tasks.</p>
+            <div class="access-denied-badge">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+              Captain Access Required
+            </div>
+          </div>
+        </div>
+
+        <!-- Task List (Member: own tasks only) -->
+        <div class="glass-card task-list-card">
+          <div class="task-list-header">
+            <h3 class="card-title">My Tasks</h3>
+            <div class="task-filters">
+              <button class="filter-btn member-filter active" data-filter="all">All</button>
+              <button class="filter-btn member-filter" data-filter="pending">Pending</button>
+              <button class="filter-btn member-filter" data-filter="completed">Completed</button>
+            </div>
+          </div>
+          <div class="task-list" id="member-task-list">
+            <div class="empty-state">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5">
+                <path d="M9 11l3 3L22 4" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg>
+              <h4>No tasks assigned yet</h4>
+              <p>Your captain will assign tasks to you</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════ FEED SECTION ═══════════════════ -->
+    <section class="content-section" id="section-feed">
+      <div class="feed-layout">
+        <div class="glass-card feed-card">
+          <h3 class="card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 11a9 9 0 0 1 9-9" />
+              <path d="M4 4a16 16 0 0 1 16 16" />
+              <circle cx="5" cy="19" r="1" />
+            </svg>
+            Live Submission Feed
+          </h3>
+          <div class="feed-list" id="feed-list">
+            <div class="empty-state">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)"
+                stroke-width="1.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+              <h4>No submissions yet</h4>
+              <p>Submissions will appear here as members complete tasks</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════ TEAM SECTION ═══════════════════ -->
+    <section class="content-section" id="section-team">
+      <div class="team-grid" id="team-grid"></div>
+    </section>
+
+    <!-- ═══════════════════ CAPTAIN SECTION ═══════════════════ -->
+    <section class="content-section" id="section-captain">
+      <div class="captain-layout">
+        <div class="glass-card captain-profile-card">
+          <div class="captain-banner"></div>
+          <div class="captain-info">
+          <div class="captain-avatar">
+              <img src="images/tamil-amuthan.png" alt="Tamil Amuthan" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" />
+            </div>
+            <h2 class="captain-name">Tamil Amuthan</h2>
+            <span class="captain-role-badge">Team Captain</span>
+            <p class="captain-bio">Leading the team with vision and precision. Driving collaboration and excellence
+              across all projects.</p>
+            <div class="captain-stats">
+              <div class="captain-stat">
+                <span class="captain-stat-value" id="captain-tasks-assigned">0</span>
+                <span class="captain-stat-label">Assigned</span>
+              </div>
+              <div class="captain-stat">
+                <span class="captain-stat-value" id="captain-tasks-completed">0</span>
+                <span class="captain-stat-label">Completed</span>
+              </div>
+              <div class="captain-stat">
+                <span class="captain-stat-value">14</span>
+                <span class="captain-stat-label">Members</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card captain-message-card">
+          <h3 class="card-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+            </svg>
+            Message from Captain
+          </h3>
+          <form id="captain-message-form">
+            <textarea id="captain-message-input" placeholder="Write a broadcast message to the team..."
+              rows="4"></textarea>
+            <button type="submit" class="btn btn-primary btn-glow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="22" y1="2" x2="11" y2="13" />
+                <polygon points="22 2 15 22 11 13 2 9 22 2" />
+              </svg>
+              Broadcast
+            </button>
+          </form>
+          <div class="captain-messages-list" id="captain-messages-list">
+            <div class="empty-state small">
+              <p>No broadcasts yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Delegate Access Panel (Captain only, rendered by JS) ── -->
+      <div class="glass-card delegate-card" id="delegate-card" style="display:none; margin-top:24px;">
+        <div class="delegate-card-header">
+          <div>
+            <h3 class="card-title" style="margin-bottom:4px;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4" />
+              </svg>
+              Delegate Task Assignment
+            </h3>
+            <p class="delegate-subtitle">Grant members the ability to create and assign tasks on your behalf.</p>
+          </div>
+          <div class="delegate-granted-count" id="delegate-granted-count"></div>
+        </div>
+        <div class="delegate-members-list" id="delegate-members-list">
+          <!-- Rendered by app.js -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ═══════════════════ ACTIVITY SECTION ═══════════════════ -->
+    <section class="content-section" id="section-activity">
+      <div class="glass-card">
+        <h3 class="card-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+          </svg>
+          Notifications &amp; Activity
+        </h3>
+        <div class="activity-full-list" id="activity-full-list">
+          <div class="empty-state">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)"
+              stroke-width="1.5">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+            <h4>All caught up!</h4>
+            <p>Notifications will appear as tasks are assigned and completed</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════ SUBMISSION MODAL ═══════ -->
+    <div class="modal-overlay" id="submission-modal">
+      <div class="modal glass-card">
+        <button class="modal-close" id="modal-close">&times;</button>
+        <h3 class="card-title">Submit Work</h3>
+        <p class="modal-task-title" id="modal-task-title"></p>
+        <form id="submission-form">
+          <input type="hidden" id="submit-task-id" />
+          <div class="form-group">
+            <label>Select Member</label>
+            <select id="submit-member" required>
+              <option value="">Choose your name...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Submission Type</label>
+            <div class="submission-type-selector">
+              <label class="sub-type-opt"><input type="radio" name="sub-type" value="text"
+                  checked /><span>Text</span></label>
+              <label class="sub-type-opt"><input type="radio" name="sub-type" value="link" /><span>Link</span></label>
+              <label class="sub-type-opt"><input type="radio" name="sub-type" value="file" /><span>File</span></label>
+            </div>
+          </div>
+          <div class="form-group" id="sub-text-group">
+            <label for="sub-text">Your Work</label>
+            <textarea id="sub-text" placeholder="Describe your completed work..." rows="4"></textarea>
+          </div>
+          <div class="form-group hidden" id="sub-link-group">
+            <label for="sub-link">Link URL</label>
+            <input type="url" id="sub-link" placeholder="https://..." />
+          </div>
+          <div class="form-group hidden" id="sub-file-group">
+            <label for="sub-file">File Name</label>
+            <input type="text" id="sub-file" placeholder="e.g. report.pdf" />
+          </div>
+          <button type="submit" class="btn btn-primary btn-glow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            Submit &amp; Complete
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
