@@ -697,8 +697,13 @@ document.querySelectorAll('.member-filter').forEach(btn => {
 
 // ── Logout ──
 document.getElementById('logout-btn').addEventListener('click', () => {
-  sessionStorage.removeItem(SESSION_KEY);
-  window.location.replace('login.html');
+  // Use Firebase signOut if available, otherwise fallback
+  if (window.signOutApp) {
+    window.signOutApp();
+  } else {
+    sessionStorage.removeItem(SESSION_KEY);
+    window.location.replace('login.html');
+  }
 });
 
 // ── Delegate Access Panel ──

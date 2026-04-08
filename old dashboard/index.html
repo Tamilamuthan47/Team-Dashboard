@@ -595,6 +595,60 @@
   <!-- Toast Container -->
   <div class="toast-container" id="toast-container"></div>
 
+  <!-- Firebase SDK & Auth Management -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD0jET4SPSCS0nr3dXSnGf58Lk2JcZAD2c",
+      authDomain: "dashboard-daaa3.firebaseapp.com",
+      projectId: "dashboard-daaa3",
+      storageBucket: "dashboard-daaa3.firebasestorage.app",
+      messagingSenderId: "891432171999",
+      appId: "1:891432171999:web:829d25e749741feeb9ac6a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    /* ── Sync Firebase Auth with Session Storage ── */
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const storedUser = sessionStorage.getItem('a100263_user');
+        if (!storedUser) {
+          // Restore user from Firebase if session expired
+          const userRole = user.email === 'tamilamuthan@example.com' ? 'captain' : 'member';
+          sessionStorage.setItem('a100263_user', JSON.stringify({
+            name: user.displayName || 'User',
+            role: userRole,
+            email: user.email,
+            picture: user.photoURL || '',
+            uid: user.uid
+          }));
+          location.reload();
+        }
+      } else {
+        // User signed out from Firebase but session still exists
+        const storedUser = sessionStorage.getItem('a100263_user');
+        if (storedUser) {
+          sessionStorage.removeItem('a100263_user');
+          window.location.href = 'login.html';
+        }
+      }
+    });
+
+    /* ── Expose sign-out function globally ── */
+    window.signOutApp = async () => {
+      try {
+        await signOut(auth);
+        sessionStorage.removeItem('a100263_user');
+        window.location.href = 'login.html';
+      } catch (error) {
+        console.error('Sign out error:', error);
+      }
+    };
+  </script>
   <script src="app.js"></script>
 </body>
 
